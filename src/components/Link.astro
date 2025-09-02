@@ -1,5 +1,33 @@
 ---
-// Henter parametrene fra Astro.props
-const { href="#", target="_self"} = Astro.props; 
+const {
+  href = "#",
+  target = "_self",
+  variant = "textlink", // default til tekstlink
+  size = "medium", // default til medium
+  children,
+} = Astro.props;
+
+// Fælles styling
+const linkStyling = "hover:bg-amber-700 rounded-md border-black gap-3";
+
+// Varianter
+const variantClasses = {
+  primary: "border-2 bg-amber-600 p-2 hover:bg-amber-700",
+  secondary: "border-2 bg-red-600 hover:bg-red-700",
+  textlink: "text-blue-600 underline hover:text-blue-800 p-0 border-none bg-transparent",
+};
+
+// Størrelser
+const sizeClasses = {
+  large: "p-6 text-xl",
+  medium: "p-4 text-m",
+  small: "p-2 text-xs",
+};
+
+// Samlet Tailwind-klasse
+const finalClasses = `${linkStyling} ${variantClasses[variant] || ""} ${sizeClasses[size] || ""}`;
 ---
-<a href={href} class="underline" target={target}><slot /></a>
+
+<a href={href} target={target} class={finalClasses}>
+  {children}
+</a>
